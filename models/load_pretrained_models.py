@@ -31,27 +31,23 @@ def load_model(model_name):
         print("Using the ResNet50 architecture.")
         model = torchvision.models.resnet50(pretrained=False)
         model = move_model_to_device(model)
-        checkpoint = model_zoo.load_url(model_urls[model_name])
+        checkpoint = model_zoo.load_url(model_urls[model_name], map_location=torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
 
     elif "vgg16" in model_name:
         print("Using the VGG-16 architecture.")
         filepath = "./vgg16_train_60_epochs_lr0.01-6c6fcc9f.pth.tar"
-
         assert os.path.exists(filepath), "Please download the VGG model manually from https://drive.google.com/drive/folders/1A0vUWyU6fTuc-xWgwQQeBvzbwi6geYQK"
-
         model = torchvision.models.vgg16(pretrained=False)
         model.features = move_model_to_device(model.features)
-        checkpoint = torch.load(filepath)
+        checkpoint = torch.load(filepath, map_location=torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
 
     elif "alexnet" in model_name:
         print("Using the AlexNet architecture.")
         filepath = "./alexnet_train_60_epochs_lr0.001-b4aa5238.pth.tar"
-
         assert os.path.exists(filepath), "Please download the AlexNet model manually from https://drive.google.com/drive/folders/1GnxcR6HUyPfRWAmaXwuiMdAMKlL1shTn"
-
         model = torchvision.models.alexnet(pretrained=False)
         model.features = move_model_to_device(model.features)
-        checkpoint = torch.load(filepath)
+        checkpoint = torch.load(filepath, map_location=torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
 
     else:
         raise ValueError("Unknown model architecture.")
