@@ -6,8 +6,11 @@ setup(
     description='Texture vs shape bias analysis',
     author='Robert Geirhos',
     url='https://github.com/kartikp/texture-vs-shape',
-    packages=['models'],
-    package_dir={'models': 'models'},
+    packages=['texture_vs_shape', 'texture_vs_shape.models'],
+    package_dir={
+        'texture_vs_shape': '.',
+        'texture_vs_shape.models': './models',
+    },
     include_package_data=True,
     install_requires=[
         'torch',
